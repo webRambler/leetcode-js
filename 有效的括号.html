@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <script>
+    /**
+    * @param {string} s
+    * @return {boolean}
+    */
+    var isValid = function (s) {
+      const list = []
+      for (let index = 0; index < s.length; index++) {
+        const item = s[index];
+        if (item == '(') {
+          list.push(')')
+        } else if (item == '[') {
+          list.push(']')
+        } else if (item == '{') {
+          list.push('}')
+        } else if (list.pop() !== item) {
+            return false
+        }
+      }
+      return list.length === 0
+    };
+
+    console.log(isValid(']'), 66);
+    
+
+  </script>
+</body>
+
+</html>

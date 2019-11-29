@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <script>
+    // 合并两个有序数组
+    /**
+    * @param {number[]} nums1
+    * @param {number} m
+    * @param {number[]} nums2
+    * @param {number} n
+    * @return {void} Do not return anything, modify nums1 in-place instead.
+    */
+    var merge = function (nums1, m, nums2, n) {
+      nums1.splice(m)
+      nums2.splice(n)
+      nums1.push(...nums2)
+      nums1.sort((a, b) => a - b)
+    };
+
+    merge([1, 2, 3, 0, 0, 0], 6, [2, 5, 6], 3)
+
+    let arr = ['w', 'y', 'k', 'o', 'p'];
+    let eArr = arr.values();
+    console.log(eArr.next(), 678)
+    // 您的浏览器必须支持 for..of 循环
+    // 以及 let —— 将变量作用域限定在 for 循环中
+    for (let letter of eArr) {
+      console.log(letter);
+    }
+  </script>
+</body>
+
+</html>

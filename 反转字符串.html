@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <script>
+    /**
+    * @param {character[]} s
+    * @return {void} Do not return anything, modify s in-place instead.
+    */
+    var reverseString = function (s) {
+      let len = s.length, str = ''
+      for (let i = 0; i < len; i++) {
+        str = s[i] + str
+      }
+      return str
+    };
+  </script>
+</body>
+
+</html>
