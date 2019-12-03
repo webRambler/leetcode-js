@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>leetcode--三数之和</title>
+</head>
+
+<body>
+
+  <script>
+    /**
+     * @param {number[]} nums
+     * @return {number[][]}
+     */
+    var threeSum = function (nums) {
+      let len = nums.length
+      nums.sort((a, b) => a - b)
+      if (nums[0] > 0 || nums[len - 1] < 0) return []
+      let resArr = []
+      for (let i = 0; i < len; i++) {
+        if(nums[i] == nums[i - 1]) continue
+        let start = i + 1
+        let end = len - 1
+        let res = []
+        while (start < end) {
+          if (nums[start] + nums[end] + nums[i] > 0) {
+            end--
+          } else if (nums[start] + nums[end] + nums[i] < 0) {
+            start++
+          } else {
+            res = [nums[i], nums[start++], nums[end--]]
+            resArr.push(res)
+            while (start < end && nums[start] == nums[start - 1]) {
+              start++
+            }
+            while (start < end && nums[end] == nums[end + 1]) {
+              end--
+            }
+          }
+        }
+      }
+      return resArr
+    };
+
+    console.log(threeSum([-1, 0, 1, 2, -1, -4, 2, 2]), 789)
+  </script>
+</body>
+
+</html>
