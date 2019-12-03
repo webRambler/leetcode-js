@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>leetcode--最接近的三数之和</title>
+</head>
+
+<body>
+
+  <script>
+    /**
+     * @param {number[]} nums
+     * @param {number} target
+     * @return {number}
+     */
+    var threeSumClosest = function (nums, target) {
+      let len = nums.length
+      nums.sort((a, b) => a - b)
+      let abs = 1 / 0
+      let obj = {}
+      for (let i = 0; i < len; i++) {
+        let start = i + 1
+        let end = len - 1
+        while (start < end) {
+          let flag = nums[start] + nums[end] + nums[i] - target
+          obj[Math.abs(flag)] = flag + target
+          abs = Math.min(Math.abs(flag), Math.abs(abs))
+          if (start < end && Math.abs(nums[start + 1] + nums[end] + nums[i] - target) < Math.abs(nums[start] + nums[end - 1] + nums[i] - target)) {
+            start++
+          } else {
+            end--
+          }
+        }
+      }
+      return obj[abs]
+    };
+
+    threeSumClosest([0,2,1,-3], 1)
+  </script>
+</body>
+
+</html>
