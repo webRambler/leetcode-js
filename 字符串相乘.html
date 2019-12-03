@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>leetcode--字符串相乘</title>
 </head>
 
 <body>
@@ -29,7 +29,7 @@
           c[i + j] ? (c[i + j] += a[i] * b [j]) : (c[i + j] = a[i] * b [j])
         }
       }
-      
+
       for (let index = c.length; index > 0; index--) {
         if (c[index] > 9) {
           c[index - 1] += (c[index] / 10 | 0)
