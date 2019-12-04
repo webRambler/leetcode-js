@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>leetcode--盛最多水的容器</title>
+</head>
+
+<body>
+
+  <script>
+    // 解法一
+    /**
+     * @param {number[]} height
+     * @return {number}
+     */
+    var maxArea = function (height) {
+      let len = height.length
+      let resArea = 0
+      for (let i = 0; i < len - 1; i++) {
+        for (let j = i + 1; j < len; j++) {
+          debu
+          const distance = j - i
+          const h = Math.min(height[i], height[j])
+          const multiply = distance * h
+          resArea = multiply >= resArea ? multiply : resArea
+        }
+      }
+      return resArea
+    };
+
+    // 解法二
+    /**
+     * @param {number[]} height
+     * @return {number}
+     */
+     var maxArea = function (height) {
+      let len = height.length
+      let resArea = 0
+      let minH = 1 / 0
+      for (let i = 0, j = len - 1; j > i;) {
+        minH = height[i] < height[j] ? height[i++] : height[j--]
+        resArea = Math.max(resArea, minH * (j - i + 1))
+      }
+      return resArea
+    };
+
+    maxArea([1,8,6,2,5,4,8,3,7])
+
+  </script>
+</body>
+
+</html>
