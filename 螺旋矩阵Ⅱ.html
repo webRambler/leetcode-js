@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="ie=edge" http-equiv="X-UA-Compatible">
+  <title>leetcode--螺旋矩阵Ⅱ</title>
+</head>
+
+<body>
+
+<script>
+  /**
+   * @param {number} n
+   * @return {number[][]}
+   */
+  var generateMatrix = function(n) {
+    if (!n) return []
+    const res = []
+    for (let i = 0; i < n; i++) {
+      res[i] = []
+      for (let j = 0; j < n; j++) {
+        res[i][j] = 0
+      }
+    }
+    // 向左前进：'left'，向右前进：'right'，向上前进：'top', 向下前进：'down'
+    let direction = 'right'
+    let x = 0, y = 0
+    const visitedArr = []
+    const col = n
+    const row = n
+    for (let i = 0; i < row; i++) {
+      visitedArr[i] = []
+      for (let j = 0; j < col; j++) {
+        visitedArr[i][j] = false
+      }
+    }
+    for (let index = 1; index <= n ** 2;) {
+      switch (direction) {
+        case 'right':
+          for (let k = x; k < col; k++) {
+            if (!visitedArr[y][k]) {
+              res[y][k] = index++
+              visitedArr[y][k] = true
+              x = k
+              if (x === col - 1) direction = 'down'
+            } else {
+              direction = 'down'
+            }
+          }
+          break;
+        case 'down':
+          for (let k = y + 1; k < row; k++) {
+            if (!visitedArr[k][x]) {
+              res[k][x] = index++
+              visitedArr[k][x] = true
+              y = k
+              if (y === row - 1) direction = 'left'
+            } else {
+              direction = 'left'
+            }
+          }
+          break;
+        case 'left':
+          for (let k = x - 1; k >= 0; k--) {
+            if (!visitedArr[y][k]) {
+              res[y][k] = index++
+              visitedArr[y][k] = true
+              x = k
+              if (x === 0) direction = 'top'
+            } else {
+              direction = 'top'
+            }
+          }
+          break;
+        case 'top':
+          for (let k = y - 1; k >= 0; k--) {
+            if (!visitedArr[k][x]) {
+              res[k][x] = index++
+              visitedArr[k][x] = true
+              y = k
+            } else {
+              direction = 'right'
+            }
+          }
+          break;
+        default:
+          break;
+      }
+    }
+    return res
+  };
+
+  generateMatrix(3)
+
+</script>
+</body>
+
+</html>
