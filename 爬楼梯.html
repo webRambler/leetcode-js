@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>leetcode--爬楼梯</title>
+</head>
+<body>
+
+<script>
+  // 其实就是斐波那契数列
+  /**
+   * @param {number} n
+   * @return {number}
+   */
+  var climbStairs = function(n) {
+    if (n <= 2) {
+      return n
+    }
+    let a = 1
+    let b = 1
+    for (let i = 0; i < n; i++) {
+      [a, b] = [b, a + b]
+    }
+    return a
+  };
+</script>
+</body>
+</html>
