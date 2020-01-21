@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>最大子序和</title>
+</head>
+<body>
+
+<script>
+  /**
+   * @param {number[]} nums
+   * @return {number}
+   */
+  var maxSubArray = function(nums) {
+    if (nums && nums.length) {
+      let sum = nums[0]
+      let currentSum = nums[0]
+      for (let i = 0; i < nums.length; i++) {
+        currentSum = currentSum < 0 ? nums[i] : nums[i] + currentSum
+        sum = Math.max(currentSum. sum)
+      }
+      return sum
+    }
+  };
+</script>
+</body>
+</html>
