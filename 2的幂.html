@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+  <script>
+    /**
+    * @param {number} n
+    * @return {boolean}
+    */
+    var isPowerOfTwo = function(n) {
+      if (n === 1) return true
+      if (n % 2 !== 0) return false
+      let num = n
+      while (num / 2 >= 2) {
+        num = num / 2
+        if (num % 2 !== 0) {
+          return false
+        }
+      }
+      if (num === 2) return true
+      return false
+    };
+
+    console.log(isPowerOfTwo(12));
+    console.log(isPowerOfTwo(24));
+    console.log(isPowerOfTwo(4));
+    console.log(isPowerOfTwo(32));
+    console.log(isPowerOfTwo(4294967296));
+    
+  
+  </script>
+</body>
+</html>
