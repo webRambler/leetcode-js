@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>整数反转</title>
+</head>
+<body>
+  
+  <script>
+    /**
+    * @param {number} x
+    * @return {number}
+    */
+    var reverse = function(x) {
+      const str = String(x)
+      const hasMinus = str.indexOf('-') === 0
+      const reverseStr = hasMinus ? str.slice(1).split('').reverse().join('') : str.split('').reverse().join('')
+      let finalNum = hasMinus ? Number('-' + reverseStr) : Number(reverseStr)
+      if (finalNum < (-2) ** 31 || finalNum > 2 ** 31 - 1) {
+        finalNum = 0
+      }
+      return finalNum
+    };
+
+    reverse(-23)
+  </script>
+</body>
+</html>
