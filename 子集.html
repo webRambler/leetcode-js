@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>子集</title>
+</head>
+<body>
+
+<script>
+  /**
+   * @param {number[]} nums
+   * @return {number[][]}
+   */
+  var subsets = function(nums) {
+    const len = nums.length
+    let arr = []
+    let res = []
+    dfs(0, arr)
+    return res
+
+    function dfs (num, vec) {
+      let tmp = vec.slice(0)
+      res.push(tmp)
+      for (let i = num; i < len; i++) {
+        vec.push(nums[i])
+        dfs(i + 1, vec)
+        vec.splice(-1)
+      }
+    }
+  };
+
+  subsets([1,2,3])
+</script>
+</body>
+</html>

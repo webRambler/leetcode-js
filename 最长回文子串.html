@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>最长回文子串</title>
+</head>
+<body>
+
+<script>
+  /**
+   * @param {string} s
+   * @return {string}
+   */
+  var longestPalindrome = function(s) {
+    const palindromeArr = []
+    for (let i = 0; i < s.length; i++) {
+      let j = 0
+      let k = 0
+      while (s[i + j] && s[i - j] && s[i + j] === s[i - j]) {
+        j++
+      }
+      palindromeArr.push(s.slice(i + 1 - j, i + j))
+      while (s[i - k] && s[i + 1 + k] && s[i - k] === s[i + 1 + k]) {
+        k++
+      }
+      palindromeArr.push(s.slice(i + 1 - k, i + k + 1))
+    }
+    return palindromeArr.sort((a, b) => {
+      return b.length - a.length
+    })[0]
+  };
+
+  console.log(longestPalindrome('adddsbbbsdddkkkks'))
+</script>
+</body>
+</html>
