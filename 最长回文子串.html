@@ -12,6 +12,7 @@
    * @return {string}
    */
   var longestPalindrome = function(s) {
+    if (!s.length) return s
     const palindromeArr = []
     for (let i = 0; i < s.length; i++) {
       let j = 0
