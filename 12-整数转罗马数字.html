@@ -66,6 +66,7 @@
   var intToRoman = function(num) {
     if (num >=1 && num <= 3999) {
       let str = ''
+      // const numArr = ['M', 'D', 'C', 'L', 'X', 'V', 'I']
       const numObj = {
         1: 'I',
         5: 'V',
@@ -75,17 +76,87 @@
         500: 'D',
         1000: 'M'
       }
-      const specialObj = {
-        900: 'CM',
-        400: 'CD',
-        90: 'XC',
-        40: 'XL',
-        9: 'IX',
-        4: 'IV'
+      // const specialObj = {
+      //   900: 'CM',
+      //   400: 'CD',
+      //   90: 'XC',
+      //   40: 'XL',
+      //   9: 'IX',
+      //   4: 'IV'
+      // }
+      let len = (num + '').length
+      let standard
+      let res
+      let left
+
+      while (len) {
+        standard = Math.pow(10, len - 1)
+        res = parseInt(num / standard)
+        left = num % standard
+        if (res === 9) {
+          str += numObj[standard]
+          str += numObj[10 * standard]
+        } else if (res === 4) {
+          str += numObj[standard]
+          str += numObj[5 * standard]
+        } else if (res >= 5) {
+          str += numObj[5 * standard]
+          const resLeft = res % 5
+          for (let i = 0; i < resLeft; i++) {
+            str += numObj[standard]
+          }
+        } else {
+          const resLeft = res % 5
+          for (let i = 0; i < resLeft; i++) {
+            str += numObj[standard]
+          }
+        }
+        len--
+        num = left
       }
-      const len = (num + '').length
+      return str
     }
   };
+
+  // 法二：
+  /**
+   * @param {number} num
+   * @return {string}
+   */
+  var intToRoman2 = function(num) {
+    if (num >=1 && num <= 3999) {
+      let str = ''
+      const numObj = {
+        1: 'I',
+        4: 'IV',
+        5: 'V',
+        9: 'IX',
+        10: 'X',
+        40: 'XL',
+        50: 'L',
+        90: 'XC',
+        100: 'C',
+        400: 'CD',
+        500: 'D',
+        900: 'CM',
+        1000: 'M'
+      }
+      const arr = [1000, 900, 500, 400, 100, 90, 50 ,40, 10, 9, 5, 4, 1]
+      let res
+      let left
+      for (let i = 0; i < 13; i++) {
+        res = parseInt(num / arr[i])
+        left = num % arr[i]
+        if (res >= 1) {
+
+        }
+        if (!left) break
+        num = left
+      }
+    }
+  }
+
+  intToRoman(3769)
 </script>
 </body>
 </html>
