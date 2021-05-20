@@ -143,20 +143,23 @@
       }
       const arr = [1000, 900, 500, 400, 100, 90, 50 ,40, 10, 9, 5, 4, 1]
       let res
-      let left
+      // let left
       for (let i = 0; i < 13; i++) {
         res = parseInt(num / arr[i])
-        left = num % arr[i]
+        // left = num % arr[i]
         if (res >= 1) {
-
+          for (let j = 0; j < res; j++) {
+            str += numObj[arr[i]]
+          }
         }
-        if (!left) break
-        num = left
+        if (!(num % arr[i])) break
+        num = num % arr[i]
       }
+      return str
     }
   }
 
-  intToRoman(3769)
+  intToRoman2(698)
 </script>
 </body>
 </html>
