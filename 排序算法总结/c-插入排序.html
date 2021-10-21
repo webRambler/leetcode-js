@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>插入排序</title>
+  <script src="generateArr.js"></script>
+</head>
+<body>
+
+<script>
+  function insertSort(list) {
+    const len  = list.length
+    for (let outer = 1; outer < len; outer++) {
+      const TEMP = list[outer]
+      let inner = outer
+      while (inner > 0 && list[inner - 1] > TEMP) {
+        list[inner] = list[inner - 1]
+        inner--
+      }
+      list[inner] = TEMP
+    }
+    return list
+  }
+
+  const testArr = generateArr(100)
+  console.time()
+  const list = insertSort(testArr)
+  console.timeEnd()
+  console.log(list)
+</script>
+</body>
+</html>
