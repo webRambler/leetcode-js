@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>二分查找</title>
+</head>
+<body>
+
+<script>
+  function binSearch(arr, num) {
+    let startIndex = 0
+    let list = []
+    let endIndex = arr.length - 1
+    let midIndex = (startIndex + endIndex) / 2 | 0
+    if (arr[midIndex] === num) return midIndex
+    if (arr[midIndex] < num) {
+      startIndex = midIndex + 1
+      list = arr.slice(startIndex)
+      return startIndex + binSearch(list, num)
+    } else {
+      endIndex = midIndex - 1
+      list = arr.slice(startIndex, endIndex + 1)
+      return binSearch(list, num)
+    }
+  }
+
+  const list = [2,3,4,5,9,10,15,17,121,155]
+
+  const index = binSearch(list, 5)
+  console.log(index, 6666333)
+</script>
+</body>
+</html>
