@@ -20,11 +20,10 @@
   }
 
   // test bubbleSort fn
-  const arr = generateArr(100)
-  console.log(arr, 1036)
-  console.time()
+  const arr = generateArr(1000)
+  console.time('bubbleSort')
   const list = bubbleSort(arr)
-  console.timeEnd()
+  console.timeEnd('bubbleSort')
   console.log(list, 333)
 </script>
 </body>
