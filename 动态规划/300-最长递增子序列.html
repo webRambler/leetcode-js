@@ -38,7 +38,7 @@
   // 你可以设计时间复杂度为 O(n2) 的解决方案吗？
   // 你能将算法的时间复杂度降低到O(n log(n)) 吗?
 
-
+// 错误解法一：
   /**
    * @param {number[]} nums
    * @return {number}
@@ -65,7 +65,84 @@
     return Math.max(...lengthArr)
   };
 
-  console.log(lengthOfLIS([10, 9, 2, 5, 3, 7, 101, 18]));
+
+  // 方法二：错误解法二
+  /**
+   * @param {number[]} nums
+   * @return {number}
+   */
+  var lengthOfLIS = function (nums) {
+    const len = nums.length
+    if (len < 2) return len
+    const arr = []
+    for (let i = 0; i < len - 1; i++) {
+      let length = 1
+      let maxNum = nums[i]
+      for (let j = i + 1; j < len; j++) {
+        debugger
+        if (nums[j] > maxNum) {
+          maxNum = nums[j]
+          length++
+        }
+      }
+      arr.push(length)
+      length = 1
+    }
+    return Math.max(...arr)
+  }
+
+  // 解法一：动态规划
+  /**
+   * @param {number[]} nums
+   * @return {number}
+   */
+  var lengthOfLIS = function (nums) {
+    const len = nums.length
+    if (len < 2) return len
+    const dp = [1]
+    for (let i = 1; i < len; i++) {
+      dp[i] = 1
+      for (let j = 0; j < i; j++) {
+        if (nums[j] < nums[i]) {
+          dp[i] = Math.max(dp[i], dp[j] + 1)
+        }
+      }
+    }
+    return Math.max(...dp)
+  }
+
+  // 解法二：贪心 + 二分查找
+  /**
+   * @param {number[]} nums
+   * @return {number}
+   */
+  var lengthOfLIS = function (nums) {
+    const len = nums.length
+    if (len < 2) return len
+    const d = [0, nums[0]]
+    let maxLength = 1
+    for (let i = 0; i < len; i++) {
+      if (nums[i] > d[maxLength]) {
+        d.push(nums[i])
+        maxLength++
+      } else {
+        let left = 1, right = maxLength, pos = 0
+        while (left <= right) {
+          let mid = (left + right) >> 1
+          if (d[mid] < nums[i]) {
+            pos = mid
+            left = mid + 1
+          } else {
+            right = mid - 1
+          }
+        }
+        d[pos + 1] = nums[i]
+      }
+    }
+    return maxLength
+  }
+
+  console.log(lengthOfLIS([0,1,0,3,2,3]));
 </script>
 </body>
 </html>
