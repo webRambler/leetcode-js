@@ -46,6 +46,7 @@
   nums 已按升序排列
    */
 
+  // 解法一：
   /**
    * @param {number[]} nums
    * @return {number}
@@ -64,7 +65,24 @@
     return i + 1
   };
 
-  removeDuplicates([1,1,1,1])
+  // 解法二：双指针，官方解法
+  var removeDuplicates = function(nums) {
+    const n = nums.length;
+    if (n === 0) {
+      return 0;
+    }
+    let fast = 1, slow = 1;
+    while (fast < n) {
+      if (nums[fast] !== nums[fast - 1]) {
+        nums[slow] = nums[fast];
+        ++slow;
+      }
+      ++fast;
+    }
+    return slow;
+  }
+
+  removeDuplicates([1,1,2,2,2,3,3])
 </script>
 </body>
 </html>
