@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>392. 判断子序列</title>
+</head>
+<body>
+
+<script>
+  // 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
+  //
+  // 字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，"ace"是"abcde"的一个子序列，而"aec"不是）。
+  //
+  // 进阶：
+  //
+  // 如果有大量输入的 S，称作 S1, S2, ... , Sk 其中 k >= 10亿，你需要依次检查它们是否为 T 的子序列。在这种情况下，你会怎样改变代码？
+  //
+  // 致谢：
+  //
+  // 特别感谢 @pbrother添加此问题并且创建所有测试用例。
+  //
+  //
+  // 示例 1：
+  // 输入：s = "abc", t = "ahbgdc"
+  // 输出：true
+  //
+  // 示例 2：
+  // 输入：s = "axc", t = "ahbgdc"
+  // 输出：false
+  //
+  // 提示：
+  //
+  // 0 <= s.length <= 100
+  // 0 <= t.length <= 10^4
+  // 两个字符串都只由小写字符组成。
+
+  // 解法一：单指针，持续移动记录上一次字符相同的位置，一直移动到末尾，如果一旦发现长字符串中不含有短字符串的某个字符，则立即return false；如果一直移动到短字符串的末尾后还没发现未包含的字符串则return true
+  /**
+   * @param {string} s
+   * @param {string} t
+   * @return {boolean}
+   */
+  var isSubsequence = function(s, t) {
+    let pos = -1
+    for (let i = 0; i < s.length; i++) {
+      const char = s.charAt(i)
+      const index = t.slice(pos + 1).indexOf(char)
+      if (index > -1) {
+        pos += (index + 1)
+      } else return false
+    }
+    return true
+  };
+
+
+  // 解法二：双指针
+  /**
+   * @param {string} s
+   * @param {string} t
+   * @return {boolean}
+   */
+  var isSubsequence = function(s, t) {
+    const m = s.length
+    const n = t.length
+    let i = 0, j = 0
+    while (j < n) {
+      if (s.charAt(i) === t.charAt(j)) {
+        i++
+      }
+      j++
+    }
+    return i === m
+  }
+
+  // 解法三：动态规划
+  // 转化为寻找两个字符串的最长公共子序列问题（剑指 Offer II 095. 最长公共子序列.html已经做过这个问题），如果最长公共子序列的长度等于第一个字符串的长度，则说明第一个字符串是第二个字符串的子序列，否则就不是。
+  /**
+   * @param {string} s
+   * @param {string} t
+   * @return {boolean}
+   */
+  var isSubsequence = function(s, t) {
+    const m = s.length
+    const n = t.length
+    if (!m) return true
+    const dp = []
+    for (let i = 0; i <= m; i++) {
+      dp[i] = new Array(n + 1).fill(0)
+    }
+    console.log(dp, 778)
+    dp[0][1] = 0
+    dp[1][0] = 0
+    for (let i = 1; i <= m; i++) {
+      const char1 = s.charAt(i - 1)
+      for (let j = 1; j <= n; j++) {
+        const char2 = t.charAt(j - 1)
+        if (char2 === char1) {
+          dp[i][j] = dp[i - 1][j - 1] + 1
+        } else {
+          dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1])
+        }
+      }
+    }
+    return dp[m][n] === s.length
+  }
+
+  isSubsequence('aaa', 'bbaa')
+
+</script>
+</body>
+</html>
