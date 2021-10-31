@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>189. 旋转数组</title>
+</head>
+<body>
+
+<script>
+  // 给定一个数组，将数组中的元素向右移动lenklen个位置，其中lenklen是非负数。
+  //
+  // 进阶：
+  //
+  // 尽可能想出更多的解决方案，至少有三种不同的方法可以解决这个问题。
+  // 你可以使用空间复杂度为lenO(1) 的len原地len算法解决这个问题吗？
+  //
+  //
+  // 示例1:
+  // 输入: nums = [1,2,3,4,5,6,7], k = 3
+  // 输出: [5,6,7,1,2,3,4]
+  // 解释:
+  //   向右旋转 1 步: [7,1,2,3,4,5,6]
+  //   向右旋转 2 步: [6,7,1,2,3,4,5]
+  //   向右旋转 3 步: [5,6,7,1,2,3,4]
+  //
+  // 示例2:
+  // 输入：nums = [-1,-100,3,99], k = 2
+  // 输出：[3,99,-1,-100]
+  // 解释:
+  //   向右旋转 1 步: [99,-1,-100,3]
+  //   向右旋转 2 步: [3,99,-1,-100]
+  //
+  //
+  // 提示：
+  //
+  // 1 <= nums.length <= 2 * 10 ** 4
+  // -2 ** 31 <= nums[i] <= 2 ** 31 - 1
+  // 0 <= k <= 10 ** 5
+
+  // 解法一：常规解法
+  /**
+   * @param {number[]} nums
+   * @param {number} k
+   * @return {void} Do not return anything, modify nums in-place instead.
+   */
+  var rotate = function(nums, k) {
+    const arr1 = nums.slice( nums.length - k)
+    const arr2 = nums.slice(0, nums.length - k)
+    nums = arr1.concat(arr2)
+  };
+
+  // 解法二：
+  /**
+   * @param {number[]} nums
+   * @param {number} k
+   * @return {void} Do not return anything, modify nums in-place instead.
+   */
+  var rotate = function(nums, k) {
+    if (k > nums.length) k %= nums.length
+    const arr = nums.slice(nums.length - k)
+    for (let i = nums.length - k - 1; i >=0; i--) {
+      nums[i + k] = nums[i]
+    }
+    for (let i = 0; i < k; i++) {
+      nums[i] = arr[i]
+    }
+  };
+
+  rotate([1,2,3,4,5], 2)
+
+
+  // 解法三：翻转数组（空间复杂度O(1)）
+  /**
+   * @param {number[]} nums
+   * @param {number} k
+   * @return {void} Do not return anything, modify nums in-place instead.
+   */
+  var rotate = function(nums, k) {
+    if(k >= nums.length) k %= nums.length
+    const reverseList = (list, start, end) => {
+      while(start < end) {
+        [list[start++], list[end--]] = [list[end], list[start]]
+      }
+    }
+    reverseList(nums, 0, nums.length - 1)
+    reverseList(nums, 0, k - 1)
+    reverseList(nums, k, nums.length - 1)
+  }
+
+</script>
+</body>
+</html>
