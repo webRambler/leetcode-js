@@ -96,20 +96,23 @@
    * @param {number[]} nums
    * @return {number}
    */
-  var lengthOfLIS = function (nums) {
+  var lengthOfLIS2 = function (nums) {
     const len = nums.length
     if (len < 2) return len
-    const dp = [1]
-    for (let i = 1; i < len; i++) {
+    const dp = []
+    // dp[i]代表子序列最末尾元素为索引i时的最长递增子序列的长度,所以dp[i]最小长度为1,即dp[0] = 1
+    dp[0] = 1 // 初始条件
+    for (let i = 1; i < nums.length; i++) {
       dp[i] = 1
       for (let j = 0; j < i; j++) {
         if (nums[j] < nums[i]) {
-          dp[i] = Math.max(dp[i], dp[j] + 1)
+          dp[i] = Math.max(dp[i - 1], dp[j] + 1)
         }
       }
     }
     console.log(dp)
     return Math.max(...dp)
+
   }
 
   // 解法二：贪心 + 二分查找
@@ -117,33 +120,32 @@
    * @param {number[]} nums
    * @return {number}
    */
-  var lengthOfLIS2 = function (nums) {
-    const len = nums.length
-    if (len < 2) return len
-    const d = [0, nums[0]]
-    let maxLength = 1
-    for (let i = 0; i < len; i++) {
-      if (nums[i] > d[maxLength]) {
+  var lengthOfLIS = function (nums) {
+    const d = [nums[0]]
+    for (let i = 1; i < nums.length; i++) {
+      if (nums[i] > d[d.length - 1]) {
         d.push(nums[i])
-        maxLength++
       } else {
-        let left = 1, right = maxLength, pos = 0
+        debugger
+        let left = 0, right = d.length
         while (left <= right) {
-          let mid = (left + right) >> 1
+          const mid = (left + right) >> 1
+          if (d[mid] === nums[i]) break
           if (d[mid] < nums[i]) {
-            pos = mid
             left = mid + 1
           } else {
             right = mid - 1
           }
         }
-        d[pos + 1] = nums[i]
+        const pos = d[left] >= nums[i] ? left : left + 1
+        d[pos] = nums[i]
       }
     }
-    return maxLength
+    console.log(d, 78)
+    return d.length
   }
 
-  console.log(lengthOfLIS([0,1,0,3,2,3]));
+  console.log(lengthOfLIS([7,7,7,7]));
 </script>
 </body>
 </html>
