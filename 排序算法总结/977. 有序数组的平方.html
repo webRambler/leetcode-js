@@ -110,12 +110,26 @@
     return res
   }
 
+  // 错误解法（寻找最小的行不通，因为数组有可能不对称，最后比较左右有剩余，无法解决）
   // 解法四：双指针，从寻找最小的元素开始
   // 先找出平方后的最小的元素，拿到其索引，然后以此为界，切割数组成左右两个子数组
   // 拿左边子数组的尾和右边子数组的头比较，谁的平方更小则把其的平方push进用来存放最后结果的新数组中（上一步找到的那个最小的数字的平方已经在数组的0位上了）
   var sortedSquares = function(nums) {
     const nums2 = nums.map(v => v ** 2)
+    if (nums[0] >= 0) return nums2
+    if (nums[nums.length - 1] <= 0) {
+      let left = 0, right = nums.length - 1
+      while (left < right) {
+        const TEMP = nums2[left]
+        nums2[left] = nums2[right]
+        nums2[right] = TEMP
+        left++
+        right--
+      }
+      return nums2
+    }
     let minIndex = 0
+    debugger
     for (let i = 1; i < nums2.length; i++) {
       if (nums2[i] > nums2[minIndex]) continue
       minIndex = i
@@ -143,8 +157,8 @@
     return res
   }
 
-  console.log(sortedSquares([0, 1, 2, 5, 10]));
-  console.log(sortedSquares([-4, -1, 2, 3, 10]));
+  console.log(sortedSquares([-5,-3,-2,-1]));
+  // console.log(sortedSquares([-4, -1, 2, 3, 10]));
 </script>
 </body>
 </html>
