@@ -58,8 +58,64 @@
     return resListNode.next
   };
 
-  //
+  // 解法二： 栈
+  /**
+   * @param {ListNode} head
+   * @param {number} n
+   * @return {ListNode}
+   */
+  var removeNthFromEnd = function(head, n) {
+    const res = new ListNode(0, head)
+    const stack = []
+    let point = res
+    while (point) {
+      stack.push(point)
+      point = point.next
+    }
+    // stack[stack.length - n - 1].next = stack[stack.length - n - 1].next.next
+    for (let i = 0; i < n; i++) {
+      stack.pop()
+    }
+    const target = stack.pop()
+    target.next = target.next.next
+    return res.next
+  }
 
+  // 解法三：普通遍历计算并记录深度
+  /**
+   * @param {ListNode} head
+   * @param {number} n
+   * @return {ListNode}
+   */
+  var removeNthFromEnd = function(head, n) {
+    const res = new ListNode(0, head)
+    let depth = 0, point = head
+    while (point) {
+      depth++
+      point = point.next
+    }
+    point = res
+    for (let i = 0; i < depth - n; i++) {
+      point = point.next
+    }
+    point.next = point.next.next
+  }
+
+  const lists = {
+    val: 1,
+    next: {
+      val: 2,
+      next: {
+        val: 3,
+        next: null
+      }
+    }
+  }
+  const lists2 = {
+    val: 1,
+    next: null
+  }
+  removeNthFromEnd(lists2, 1)
 </script>
 </body>
 </html>

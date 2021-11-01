@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>剑指 Offer 30. 包含min函数的栈</title>
+</head>
+<body>
+
+<script>
+  // 定义栈的数据结构，请在该类型中实现一个能够得到栈的最小元素的 min 函数在该栈中，调用 min、push 及 pop 的时间复杂度都是 O(1)。
+  //
+  //
+  // 示例:
+  //
+  // MinStack minStack = new MinStack();
+  // minStack.push(-2);
+  // minStack.push(0);
+  // minStack.push(-3);
+  // minStack.min();   --> 返回 -3.
+  // minStack.pop();
+  // minStack.top();      --> 返回 0.
+  // minStack.min();   --> 返回 -2.
+  //
+  //
+  // 提示：
+  //
+  // 各函数的调用总次数不超过 20000 次
+
+  /**
+   * initialize your data structure here.
+   */
+  var MinStack = function() {
+    this.stack = []
+    // 用来储存最小元素min的辅助栈
+    this.stackMin = []
+  };
+
+  /**
+   * @param {number} x
+   * @return {void}
+   */
+  MinStack.prototype.push = function(x) {
+    this.stack.push(x)
+    if (!this.stackMin.length || this.stackMin[this.stackMin.length - 1] >= x) {
+      this.stackMin.push(x)
+    }
+  };
+
+  /**
+   * @return {void}
+   */
+  MinStack.prototype.pop = function() {
+    const num = this.stack.pop()
+    if (this.stackMin.length && num === this.stackMin[this.stackMin.length - 1]) {
+      this.stackMin.pop()
+    }
+  };
+
+  /**
+   * @return {number}
+   */
+  MinStack.prototype.top = function() {
+    return this.stack[this.stack.length - 1]
+  };
+
+  /**
+   * @return {number}
+   */
+  MinStack.prototype.min = function() {
+    return this.stackMin[this.stackMin.length - 1]
+  };
+
+  /**
+   * Your MinStack object will be instantiated and called as such:
+   * var obj = new MinStack()
+   * obj.push(x)
+   * obj.pop()
+   * var param_3 = obj.top()
+   * var param_4 = obj.min()
+   */
+
+  var obj = new MinStack()
+  obj.push(0)
+  obj.push(1)
+  obj.push(0)
+  console.log(obj)
+  debugger
+  var param_4 = obj.min()
+  console.log(param_4, 4444)
+  var param_3 = obj.pop()
+  console.log(param_3, 3333)
+  var param_5 = obj.min()
+  console.log(param_5, 5555)
+
+</script>
+</body>
+</html>
