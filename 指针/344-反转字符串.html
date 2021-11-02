@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>344-反转字符串</title>
+</head>
+
+<body>
+
+  <script>
+    /**
+    * @param {character[]} s
+    * @return {void} Do not return anything, modify s in-place instead.
+    */
+    var reverseString = function (s) {
+      let len = s.length, str = ''
+      for (let i = 0; i < len; i++) {
+        str = s[i] + str
+      }
+      return str
+    };
+
+    // 解法二：双指针，头尾互换(此解法把入参当成了字符串，切割左中右子字符串，然后在进行左右字符对换，再连接)
+    /**
+     * @param {character[]} s
+     * @return {void} Do not return anything, modify s in-place instead.
+     */
+    var reverseString = function (s) {
+
+      let left = 0, right = s.length - 1
+      while (left < right) {
+        const leftStr = s.slice(0, left)
+        const rightStr = s.slice(right + 1)
+        const midStr = s.slice(left + 1, right)
+        const leftChar = s.charAt(left)
+        const rightChar = s.charAt(right)
+        s = leftStr + rightChar + midStr + leftChar + rightStr
+        left++
+        right--
+        if (left >= right) break
+      }
+      console.log(s)
+    }
+
+    // 解法三：双指针，头尾互换
+    /**
+     * @param {character[]} s
+     * @return {void} Do not return anything, modify s in-place instead.
+     */
+    var reverseString = function (s) {
+      let left = 0, right = s.length - 1
+      while (left < right) {
+        const TEMP = s[left]
+        s[left] = s[right]
+        s[right] = TEMP
+        left++
+        right--
+        if (left >= right) break
+      }
+      s = s.join('')
+      console.log(s)
+    }
+
+    reverseString(['a','b','c','d','e', 'f'])
+  </script>
+</body>
+
+</html>

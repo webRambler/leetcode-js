@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>557-反转字符串中的单词 III</title>
+</head>
+
+<body>
+
+  <script>
+    /**
+    * @param {string} s
+    * @return {string}
+    */
+    var reverseWords = function (s) {
+      const list = s.split(' ')
+      list.forEach((item, index, arr) => {
+        arr[index] = item.split('').reverse().join('')
+      })
+      return list.join(' ')
+    };
+
+    // 解法二：双指针
+    // 时间复杂度O(n),空间复杂度O(n)
+    /**
+     * @param {string} s
+     * @return {string}
+     */
+    var reverseWords = function (s) {
+      const len = s.length
+      const res = []
+      for (let i = 0; i < len;) {
+        let start = i
+        while (i < len && s.charAt(i) !== ' ') {
+          i++
+        }
+        let point = start
+        while (point < i) {
+          res.push(s.charAt(start + i - point - 1))
+          point++
+        }
+        while (i < len && s.charAt(i) === ' ') {
+          res.push(' ')
+          i++
+        }
+      }
+      return res.join('')
+    }
+
+    // 解法三：双指针
+    // 时间复杂度O(n),空间复杂度O(1)
+    /**
+     * @param {string} s
+     * @return {string}
+     */
+    var reverseWords = function (s) {
+      const len = s.length
+      let resStr = ''
+      for (let i = 0; i < len;) {
+        let tempStr = ''
+        let start = i
+        while (i < len && s.charAt(i) !== ' ') {
+          i++
+        }
+        let point = start
+        while (point < i) {
+          tempStr = s.charAt(point) + tempStr
+          point++
+        }
+        while (i < len && s.charAt(i) === ' ') {
+          tempStr += ' '
+          i++
+        }
+        resStr += tempStr
+      }
+      return resStr
+    }
+
+    console.log(reverseWords("Let's take LeetCode contest"))
+  </script>
+</body>
+
+</html>
