@@ -101,6 +101,24 @@
     point.next = point.next.next
   }
 
+  // 解法四：遍历一次，并记录每个深度的节点值
+  /**
+   * @param {ListNode} head
+   * @param {number} n
+   * @return {ListNode}
+   */
+  var removeNthFromEnd = function(head, n) {
+    let res = new ListNode(0, head)
+    let p = res, deep = 0
+    const obj = {0: res}
+    while (p) {
+      p = p.next
+      obj[++deep] = p
+    }
+    obj[deep - n - 1].next = obj[deep - n - 1].next.next
+    return res.next
+  }
+
   const lists = {
     val: 1,
     next: {
