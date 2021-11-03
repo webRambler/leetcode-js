@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>345. 反转字符串中的元音字母</title>
+</head>
+<body>
+
+<script>
+  // 给你一个字符串 s ，仅反转字符串中的所有元音字母，并返回结果字符串。
+  //
+  // 元音字母包括 'a'、'e'、'i'、'o'、'u'，且可能以大小写两种形式出现。
+  //
+  // 示例 1：
+  // 输入：s = "hello"
+  // 输出："holle"
+  //
+  // 示例 2：
+  // 输入：s = "leetcode"
+  // 输出："leotcede"
+  //
+  // 提示：
+  // 1 <= s.length <= 3 * 105
+  // s 由 可打印的 ASCII 字符组成
+
+  // 解法一：双指针（一头一尾）
+  /**
+   * @param {string} s
+   * @return {string}
+   */
+  var reverseVowels = function(s) {
+    if (s.length < 2) return s
+    let left = 0, right = s.length - 1
+    const arr = ['a', 'e', 'i', 'o', 'u']
+    let leftStr = '', rightStr = ''
+    while (left <= right) {
+      if (left === right) {
+        return leftStr + s.charAt(left) + rightStr
+      }
+      if (arr.includes(s.charAt(left).toLowerCase()) && arr.includes(s.charAt(right).toLowerCase()) && left < right) {
+        leftStr += s.charAt(right)
+        rightStr = s.charAt(left) + rightStr
+        left++
+        right--
+      } else if (arr.includes(s.charAt(left).toLowerCase()) && !arr.includes(s.charAt(right).toLowerCase())) {
+        rightStr = s.charAt(right) + rightStr
+        right--
+      } else if (!arr.includes(s.charAt(left).toLowerCase()) && arr.includes(s.charAt(right).toLowerCase())) {
+        leftStr += s.charAt(left)
+        left++
+      } else {
+        leftStr += s.charAt(left)
+        rightStr = s.charAt(right) + rightStr
+        left++
+        right--
+      }
+    }
+    return leftStr + rightStr
+  };
+
+  console.log(reverseVowels('a.'));
+
+</script>
+</body>
+</html>
