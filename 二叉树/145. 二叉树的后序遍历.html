@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>144. 二叉树的前序遍历</title>
+  <title>145. 二叉树的后序遍历</title>
 </head>
 <body>
 
 <script>
-  // 给你二叉树的根节点 root ，返回它节点值的 前序 遍历。
+  // 给定一个二叉树，返回它的 后序 遍历。
 
   /**
    * Definition for a binary tree node.
@@ -18,41 +18,41 @@
     this.right = (right===undefined ? null : right)
   }
 
-  // 解法一：递归法
+  // 解法一：递归
   /**
    * @param {TreeNode} root
    * @return {number[]}
    */
-  var preorderTraversal = function(root) {
+  var postorderTraversal = function(root) {
     const arr = []
     const rec = node => {
       if (node) {
+        node.left && rec(node.left)
+        node.right && rec(node.right)
         arr.push(node.val)
       }
-      if (node && node.left) rec(node.left)
-      if (node && node.right) rec(node.right)
     }
     rec(root)
     return arr
   };
 
-  // 解法二：栈
+  // 解法二：栈结合先序遍历的栈实现方法
   /**
    * @param {TreeNode} root
    * @return {number[]}
    */
-  var preorderTraversal = function(root) {
+  var postorderTraversal = function(root) {
     const stack = [root]
     const arr = []
     while (stack.length) {
       const node = stack.pop()
       if (node) {
+        node.left && stack.push(node.left)
+        node.right && stack.push(node.right)
         arr.push(node.val)
-        if (node.right) stack.push(node.right)
-        if (node.left) stack.push(node.left)
       }
     }
-    return arr
+    return arr.reverse()
   }
 
 </script>

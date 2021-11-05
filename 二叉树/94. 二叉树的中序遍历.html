@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>94. 二叉树的中序遍历</title>
+</head>
+<body>
+
+<script>
+  // 给定一个二叉树的根节点 root ，返回它的 中序 遍历。
+  /**
+   * Definition for a binary tree node.
+   */
+  function TreeNode(val, left, right) {
+    this.val = (val===undefined ? 0 : val)
+    this.left = (left===undefined ? null : left)
+    this.right = (right===undefined ? null : right)
+  }
+  // 解法一：递归
+  /**
+   * @param {TreeNode} root
+   * @return {number[]}
+   */
+  var inorderTraversal = function(root) {
+    const arr = []
+    const rec = node => {
+      if (node) {
+        node.left && rec(node.left)
+        arr.push(node.val)
+        node.right && rec(node.right)
+      }
+    }
+    rec(root)
+    return arr
+  };
+
+  // 解法二：栈
+  /**
+   * @param {TreeNode} root
+   * @return {number[]}
+   */
+  var inorderTraversal = function(root) {
+    const stack = []
+    let point = root
+    const arr = []
+    while (stack.length || point) {
+      while (point) {
+        stack.push(point)
+        point = point.left
+      }
+      point = stack.pop()
+      arr.push(point.val)
+      point = point.right
+    }
+    return arr
+  }
+
+  const root = {
+    val: 1,
+    left: {
+      val: 2,
+      left: {
+        val: 4
+      },
+      right: {
+        val: 5
+      }
+    },
+    right: {
+      val: 3
+    }
+  }
+  inorderTraversal(root)
+
+</script>
+</body>
+</html>
