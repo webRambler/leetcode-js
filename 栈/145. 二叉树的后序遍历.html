@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>145. 二叉树的后序遍历</title>
+</head>
+<body>
+
+<script>
+  // 给定一个二叉树，返回它的 后序 遍历。
+
+  /**
+   * Definition for a binary tree node.
+   */
+  function TreeNode(val, left, right) {
+    this.val = (val===undefined ? 0 : val)
+    this.left = (left===undefined ? null : left)
+    this.right = (right===undefined ? null : right)
+  }
+
+  // 解法一：递归
+  /**
+   * @param {TreeNode} root
+   * @return {number[]}
+   */
+  var postorderTraversal = function(root) {
+    const arr = []
+    const rec = node => {
+      if (node) {
+        node.left && rec(node.left)
+        node.right && rec(node.right)
+        arr.push(node.val)
+      }
+    }
+    rec(root)
+    return arr
+  };
+
+  // 解法二：栈结合先序遍历的栈实现方法
+  /**
+   * @param {TreeNode} root
+   * @return {number[]}
+   */
+  var postorderTraversal = function(root) {
+    const stack = [root]
+    const arr = []
+    while (stack.length) {
+      const node = stack.pop()
+      if (node) {
+        node.left && stack.push(node.left)
+        node.right && stack.push(node.right)
+        arr.push(node.val)
+      }
+    }
+    return arr.reverse()
+  }
+
+</script>
+</body>
+</html>
