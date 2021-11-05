@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>50. Pow(x, n)</title>
+</head>
+<body>
+
+<script>
+  // 实现 pow(x, n) ，即计算 x 的 n 次幂函数（即，xn）。
+
+  /**
+   * @param {number} x
+   * @param {number} n
+   * @return {number}
+   */
+  var myPow = function(x, n) {
+    if (n === 0) return 1
+    let m = n > 0 ? n : -n
+    let res = x
+    let lastCount = 1
+    const arr = []
+    let left = 1, right = m - 1
+    debugger
+    while (left <= right) {
+      const mid = (left + right) / 2 | 0
+      mid > 1 && arr.unshift(mid)
+      right = mid - 1
+    }
+    m > 1 && arr.push(m)
+    for (let i = 0; i < arr.length; i++) {
+      const target = arr[i]
+      res *= res
+      lastCount *= 2
+      if (lastCount < target) res *= x
+      lastCount = target
+    }
+    console.log(arr, res)
+    return n > 0 ? res : 1 / res
+  }
+
+  myPow(2, -2147483648)
+</script>
+</body>
+</html>
