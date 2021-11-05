@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>567. 字符串的排列</title>
+</head>
+<body>
+
+<script>
+  // 给你两个字符串s1和s2 ，写一个函数来判断 s2 是否包含 s1的排列。如果是，返回 true ；否则，返回 false 。
+  //
+  // 换句话说，s1 的排列之一是 s2 的 子串 。
+  //
+  // 示例 1：
+  // 输入：s1 = "ab" s2 = "eidbaooo"
+  // 输出：true
+  // 解释：s2 包含 s1 的排列之一 ("ba").
+  //
+  // 示例 2：
+  // 输入：s1= "ab" s2 = "eidboaoo"
+  // 输出：false
+  //
+  //
+  // 提示：
+  // 1 <= s1.length, s2.length <= 10000
+  // s1 和 s2 仅包含小写字母
+
+  // 解法一：回溯算法找到所有的全排列
+  // 此法可行，但是时间超时
+  /**
+   * @param {string} s1
+   * @param {string} s2
+   * @return {boolean}
+   */
+  var checkInclusion = function(s1, s2) {
+    if (s1.length > s2.length) return false
+    const n  = s1.length
+    let res = false
+    const backTrack = (path, str) => {
+      if (path.length === n) {
+        if (s2.includes(str)) {
+          res = true
+        }
+        return
+      }
+      for (let i = 0; i < n; i++) {
+        if (!path.includes(i)) {
+          backTrack(path.concat(i), str + s1.charAt(i))
+        }
+      }
+    }
+    backTrack([], '')
+    return res
+  };
+
+  // 解法二：滑动窗口（窗口长度为s1字符串的长度）
+  /**
+   * @param {string} s1
+   * @param {string} s2
+   * @return {boolean}
+   */
+  var checkInclusion = function(s1, s2) {
+    if (s1.length > s2.length) return false
+    const n = s1.length
+    const obj1 = {}
+    for (let i = 0; i < n; i++) {
+      const char = s1.charAt(i)
+      if (!obj1[char]) obj1[char] = 1
+      else obj1[char] = obj1[char] + 1
+    }
+    let left = 0, right = n - 1
+    outer:
+    for (; right < s2.length; right++) {
+      const str = s2.slice(left, right + 1)
+      let start = 0
+      const obj2 = {}
+      for (; start < n; start++) {
+        const char = str.charAt(start)
+        if (!obj1[char]) {
+          left++
+          continue outer
+        }
+        if (!obj2[char]) obj2[char] = 1
+        else obj2[char] = obj2[char] + 1
+      }
+      if (start === n && Object.keys(obj1).length === Object.keys(obj2).length) {
+        const keys = Object.keys(obj1)
+        let i = 0
+        for (; i < keys.length; i++) {
+          if (obj1[keys[i]] !== obj2[keys[i]]) {
+            left++
+            continue outer
+          }
+        }
+        left++
+        if (i === keys.length) return true
+      } else left++
+    }
+    return false
+  }
+
+  checkInclusion("hello", "ooolleoooleh")
+
+</script>
+</body>
+</html>
