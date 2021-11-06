@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>二叉树的广度优先遍历</title>
+</head>
+<body>
+
+<script>
+  // 利用队列数据结构对二叉树进行广度优先遍历
+  const bfs = (root) => {
+    if (!root) return
+    const queue = [root]
+    while (queue.length) {
+      const node = queue.shift()
+      console.log(node.val)
+      if (node.left) queue.push(node.left)
+      if (node.right) queue.push(node.right)
+    }
+  }
+
+  // 二：将同层级的节点一次性全部出队列（在某些场景下很有用）
+  const bfs2 = (root) => {
+    if (!root) return
+    const queue = [root]
+    while (queue.length) {
+      let len = queue.length
+      while (len--) {
+        const node = queue.shift()
+        console.log(node.val)
+        if (node.left) queue.push(node.left)
+        if (node.right) queue.push(node.right)
+      }
+    }
+  }
+
+  const root1 = {
+    val: 1,
+    left: {
+      val: 2,
+      left: {
+        val: 4
+      },
+      right: {
+        val: 5
+      }
+    },
+    right: {
+      val: 3,
+      left: {
+        val: 6
+      },
+      right: {
+        val: 7
+      }
+    }
+  }
+
+  bfs(root1)
+  bfs2(root1)
+</script>
+</body>
+</html>
