@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>226. 翻转二叉树</title>
+</head>
+<body>
+
+<script>
+  // 翻转一棵二叉树。
+  //
+  // 示例：
+  //
+  // 输入：
+  //
+  //            4
+  //          /   \
+  //         2     7
+  //        / \   / \
+  //       1   3 6   9
+  //
+  // 输出：
+  //
+  //          4
+  //        /   \
+  //       7     2
+  //      / \   / \
+  //     9   6 3   1
+  // 备注:
+  //   这个问题是受到 Max Howell 的 原问题 启发的 ：
+  //
+  // 谷歌：我们90％的工程师使用您编写的软件(Homebrew)，但是您却无法在面试时在白板上写出翻转二叉树这道题，这太糟糕了。
+
+  /**
+   * Definition for a binary tree node.
+   */
+  function TreeNode(val, left, right) {
+    this.val = (val === undefined ? 0 : val)
+    this.left = (left === undefined ? null : left)
+    this.right = (right === undefined ? null : right)
+  }
+
+  // 解法：递归交换左右子树，自顶而下
+  /**
+   * @param {TreeNode} root
+   * @return {TreeNode}
+   */
+  var invertTree = function(root) {
+    if (!root) return null
+    const rec = node => {
+      return {
+        val: node.val,
+        left: node.right && rec(node.right) || null,
+        right: node.left && rec(node.left) || null
+      }
+    }
+    return rec(root)
+  };
+
+  const root1 = {
+    val: 1,
+    left: {
+      val: 2,
+      left: {
+        val: 4
+      },
+      right: {
+        val: 5
+      }
+    },
+    right: {
+      val: 3,
+      left: {
+        val: 6
+      },
+      right: {
+        val: 7
+      }
+    }
+  }
+
+  console.log(invertTree(root1));
+</script>
+</body>
+</html>
