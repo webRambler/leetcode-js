@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>994. 腐烂的橘子</title>
+</head>
+<body>
+
+<script>
+  // 在给定的网格中，每个单元格可以有以下三个值之一：
+  // 值0代表空单元格；
+  // 值1代表新鲜橘子；
+  // 值2代表腐烂的橘子。
+  // 每分钟，任何与腐烂的橘子（在 4 个正方向上）相邻的新鲜橘子都会腐烂。
+  // 返回直到单元格中没有新鲜橘子为止所必须经过的最小分钟数。如果不可能，返回-1。
+  //
+  // 示例 1：
+  // 输入：[[2,1,1],[1,1,0],[0,1,1]]
+  // 输出：4
+  //
+  // 示例 2：
+  // 输入：[[2,1,1],[0,1,1],[1,0,1]]
+  // 输出：-1
+  // 解释：左下角的橘子（第 2 行， 第 0 列）永远不会腐烂，因为腐烂只会发生在 4 个正向上。
+  //
+  // 示例 3：
+  // 输入：[[0,2]]
+  // 输出：0
+  // 解释：因为 0 分钟时已经没有新鲜橘子了，所以答案就是 0 。
+  //
+  // 提示：
+  // 1 <= grid.length <= 10
+  // 1 <= grid[0].length <= 10
+  // grid[i][j] 仅为0、1或2
+
+  // 此题同542.01矩阵
+  // 解法一：广度优先遍历
+  /**
+   * @param {number[][]} grid
+   * @return {number}
+   */
+  var orangesRotting = function(grid) {
+    const m = grid.length
+    const n = grid[0].length
+    const dp = new Array(m)
+    const queue = []
+    for (let i = 0; i < m; i++) {
+      dp[i] = new Array(n)
+    }
+    for (let i = 0; i < m; i++) {
+      for (let j = 0; j < n; j++) {
+        if (grid[i][j] === 2) {
+          dp[i][j] = 0
+          queue.push([i, j])
+        } else if (grid[i][j] === 1) {
+          dp[i][j] = -1
+        }
+      }
+    }
+    const setNeighborVal = (i, j, val) => {
+      if (i > 0 && dp[i - 1][j] && dp[i - 1][j] < 0) {
+        dp[i - 1][j] = val + 1
+        queue.push([i - 1, j])
+      }
+      if (j > 0 && dp[i][j - 1] < 0) {
+        dp[i][j - 1] = val + 1
+        queue.push([i, j - 1])
+      }
+      if (i < m - 1 && dp[i + 1][j] < 0) {
+        dp[i + 1][j] = val + 1
+        queue.push([i + 1, j])
+      }
+      if (j < n - 1 && dp[i][j + 1] < 0) {
+        dp[i][j + 1] = val + 1
+        queue.push([i, j + 1])
+      }
+    }
+    while (queue.length) {
+      const [i, j] = queue.shift()
+      const val = dp[i][j]
+      setNeighborVal(i, j, val)
+    }
+    let res = 0
+    for (let i = 0; i < m; i++) {
+      for (let j = 0; j < n; j++) {
+        if (dp[i][j] === -1) return -1
+        dp[i][j] && (res = Math.max(res, dp[i][j]))
+      }
+    }
+    return res
+  };
+
+  // 解法二：动态规划（没做出来，废了）
+  /**
+   * @param {number[][]} grid
+   * @return {number}
+   */
+  var orangesRotting = function(grid) {
+    const m = grid.length
+    const n = grid[0].length
+    const dp = new Array(m)
+    for (let i = 0; i < m; i++) {
+      dp[i] = new Array(n)
+    }
+    for (let i = 0; i < m; i++) {
+      for (let j = 0; j < n; j++) {
+        if (grid[i][j] === 2) {
+          dp[i][j] = 0
+        } else if (grid[i][j] === 1) {
+          dp[i][j] = 60
+        }
+      }
+    }
+    /*// 向左向上移动计算
+    for (let i = 0; i < m; i++) {
+      for (let j = 0; j < n; j++) {
+        if (dp[i][j] === 0) continue
+        if (i > 0 && !(grid[i][j] === 0 || grid[i - 1][j] === 0)) {
+          dp[i][j] = Math.min(dp[i][j], dp[i - 1][j] + 1)
+        }
+        if (j > 0 && !(grid[i][j] === 0 || grid[i][j - 1] === 0)) {
+          dp[i][j] = Math.min(dp[i][j], dp[i][j - 1] + 1)
+        }
+      }
+    }
+    // 向左向下移动计算
+    for (let i = m - 1; i >= 0; i--) {
+      for (let j = 0; j < n; j++) {
+        if (dp[i][j] === 0) continue
+        if (i < m - 1 && !(grid[i][j] === 0 || grid[i + 1][j] === 0)) {
+          dp[i][j] = Math.min(dp[i][j], dp[i + 1][j] + 1)
+        }
+        if (j > 0 && !(grid[i][j] === 0 || grid[i][j - 1] === 0)) {
+          dp[i][j] = Math.min(dp[i][j], dp[i][j - 1] + 1)
+        }
+      }
+    }
+    // 向右向下移动计算
+    for (let i = m - 1; i >= 0; i--) {
+      for (let j = n - 1; j >= 0; j--) {
+        if (dp[i][j] === 0) continue
+        if (i < m - 1 && !(grid[i][j] === 0 || grid[i + 1][j] === 0)) {
+          dp[i][j] = Math.min(dp[i][j], dp[i + 1][j] + 1)
+        }
+        if (j < n- 1 && !(grid[i][j] === 0 || grid[i][j + 1] === 0)) {
+          dp[i][j] = Math.min(dp[i][j], dp[i][j + 1] + 1)
+        }
+      }
+    }
+    // 向右向上移动计算
+    for (let i = 0; i < m; i++) {
+      for (let j = n - 1; j >= 0; j--) {
+        if (dp[i][j] === 0) continue
+        if (i > 0 && !(grid[i][j] === 0 || grid[i - 1][j] === 0)) {
+          dp[i][j] = Math.min(dp[i][j], dp[i - 1][j] + 1)
+        }
+        if (j < n - 1 && !(grid[i][j] === 0 || grid[i][j + 1] === 0)) {
+          dp[i][j] = Math.min(dp[i][j], dp[i][j + 1] + 1)
+        }
+      }
+    }
+    */
+    /*
+    // 因为有障碍物，所以要同时考虑四个方向，四条边界上的单独考虑
+    // dp[i][0]第一列
+    for (let i = 0; i < m - 1; i++) {
+      if (dp[i][0] === 0) continue
+      if (i === 0 && !(grid[0][0] !== 0 && grid[1][0] !== 0 && grid[0][1] !== 0)) {
+        dp[0][0] = Math.min(dp[0][0], dp[1][0] + 1, dp[0][1] + 1)
+      } else if (i === m - 1 && !(grid[m - 1][0] !== 0 && grid[m - 2][0] !== 0 && grid[m - 1][1] !== 0)) {
+        dp[m - 1][0] = Math.min(dp[m - 1][0], dp[m - 2][0] + 1, dp[m - 1][1] + 1)
+      } else if (!(grid[i][0] !== 0 && grid[i + 1][0] !== 0 && grid[i - 1][0] !== 0 && grid[i][1] !== 0)) {
+        dp[i][0] = Math.min(dp[i][0], dp[i + 1][0] + 1, dp[i - 1][0] + 1, dp[i][1] + 1)
+      }
+    }
+    // dp[i][n - 1]最后一列
+    for (let i = 0; i < m - 1; i++) {
+      if (dp[i][n - 1] === 0) continue
+      if (i === 0 && grid[0][n - 1] && grid[1][n - 1] && grid[0][n - 2]) {
+        dp[0][n - 1] = Math.min(dp[0][n - 1], dp[1][n - 1] + 1, dp[0][n - 2] + 1)
+      } else if (i === m - 1) {
+        dp[m - 1][n - 1] = Math.min(dp[m - 1][n - 1], dp[m - 2][n - 1] + 1, dp[m - 1][n - 2] + 1)
+      } else {
+        dp[i][n - 1] = Math.min(dp[i][n - 1], dp[i + 1][n - 1] + 1, dp[i - 1][n - 1] + 1, dp[i][n - 2] + 1)
+      }
+    }
+    // dp[0][j]第一行
+    for (let j = 0; j < n - 1; j++) {
+      if (dp[0][j] === 0) continue
+      if (j === 0) {
+        dp[0][0] = Math.min(dp[0][0], dp[1][0] + 1, dp[0][1] + 1)
+      } else if (j === n - 1) {
+        dp[0][n - 1] = Math.min(dp[0][n - 1], dp[0][n - 2] + 1, dp[1][n - 1] + 1)
+      } else {
+        dp[0][j] = Math.min(dp[0][j], dp[0][j + 1] + 1, dp[0][j - 1] + 1, dp[1][j] + 1)
+      }
+    }
+    // dp[m - 1][j]最后一行
+    for (let j = 0; j < n - 1; j++) {
+      if (dp[m - 1][j] === 0) continue
+      if (j === 0) {
+        dp[m - 1][0] = Math.min(dp[m - 1][0], dp[m - 2][0] + 1, dp[m - 1][1] + 1)
+      } else if (j === n - 1) {
+        dp[m - 1][n - 1] = Math.min(dp[m - 1][n - 1], dp[m - 1][n - 2] + 1, dp[m - 2][n - 1] + 1)
+      } else {
+        dp[m - 1][j] = Math.min(dp[m - 1][j], dp[m - 1][j + 1] + 1, dp[m - 1][j - 1] + 1, dp[m - 2][j] + 1)
+      }
+    }
+    */
+    for (let i = 0; i < m - 1; i++) {
+      for (let j = 0; j < n - 1; j++) {
+        if (dp[i][j] === 0) continue
+        if (i > 0 && grid[i][j] && grid[i - 1][j]) {
+          dp[i][j] = Math.min(dp[i][j], dp[i - 1][j] + 1)
+        }
+        if (j < n - 1 && grid[i][j] && grid[i][j + 1]) {
+          dp[i][j] = Math.min(dp[i][j], dp[i][j + 1] + 1)
+        }
+        if (i < m - 1 && grid[i][j] && grid[i + 1][j]) {
+          dp[i][j] = Math.min(dp[i][j], dp[i + 1][j] + 1)
+        }
+        if (j > 0 && grid[i][j] && grid[i][j - 1]) {
+          dp[i][j] = Math.min(dp[i][j], dp[i][j - 1] + 1)
+        }
+      }
+    }
+    for (let i = m - 1; i >= 0; i--) {
+      for (let j = 0; j < n - 1; j++) {
+        if (dp[i][j] === 0) continue
+        if (i > 0 && grid[i][j] && grid[i - 1][j]) {
+          dp[i][j] = Math.min(dp[i][j], dp[i - 1][j] + 1)
+        }
+        if (j < n - 1 && grid[i][j] && grid[i][j + 1]) {
+          dp[i][j] = Math.min(dp[i][j], dp[i][j + 1] + 1)
+        }
+        if (i < m - 1 && grid[i][j] && grid[i + 1][j]) {
+          dp[i][j] = Math.min(dp[i][j], dp[i + 1][j] + 1)
+        }
+        if (j > 0 && grid[i][j] && grid[i][j - 1]) {
+          dp[i][j] = Math.min(dp[i][j], dp[i][j - 1] + 1)
+        }
+      }
+    }
+    for (let i = m - 1; i >= 0; i--) {
+      for (let j = n - 1; j >= 0; j--) {
+        if (dp[i][j] === 0) continue
+        if (i > 0 && grid[i][j] && grid[i - 1][j]) {
+          dp[i][j] = Math.min(dp[i][j], dp[i - 1][j] + 1)
+        }
+        if (j < n - 1 && grid[i][j] && grid[i][j + 1]) {
+          dp[i][j] = Math.min(dp[i][j], dp[i][j + 1] + 1)
+        }
+        if (i < m - 1 && grid[i][j] && grid[i + 1][j]) {
+          dp[i][j] = Math.min(dp[i][j], dp[i + 1][j] + 1)
+        }
+        if (j > 0 && grid[i][j] && grid[i][j - 1]) {
+          dp[i][j] = Math.min(dp[i][j], dp[i][j - 1] + 1)
+        }
+      }
+    }
+    for (let i = 0; i < m - 1; i++) {
+      for (let j = n - 1; j >= 0; j--) {
+        if (dp[i][j] === 0) continue
+        if (i > 0 && grid[i][j] && grid[i - 1][j]) {
+          dp[i][j] = Math.min(dp[i][j], dp[i - 1][j] + 1)
+        }
+        if (j < n - 1 && grid[i][j] && grid[i][j + 1]) {
+          dp[i][j] = Math.min(dp[i][j], dp[i][j + 1] + 1)
+        }
+        if (i < m - 1 && grid[i][j] && grid[i + 1][j]) {
+          dp[i][j] = Math.min(dp[i][j], dp[i + 1][j] + 1)
+        }
+        if (j > 0 && grid[i][j] && grid[i][j - 1]) {
+          dp[i][j] = Math.min(dp[i][j], dp[i][j - 1] + 1)
+        }
+      }
+    }
+    let res = 0
+    console.log(dp, 66)
+
+    for (let i = 0; i < m; i++) {
+      for (let j = 0; j < n; j++) {
+        if (dp[i][j] === -1) return -1
+        dp[i][j] && (res = Math.max(res, dp[i][j]))
+      }
+    }
+    console.log(dp, 66)
+    return res
+  }
+
+  console.log(orangesRotting([[2,0,1,1,1,1,1,1,1,1],[1,0,1,0,0,0,0,0,0,1],[1,0,1,0,1,1,1,1,0,1],[1,0,1,0,1,0,0,1,0,1],[1,0,1,0,1,0,0,1,0,1],[1,0,1,0,1,1,0,1,0,1],[1,0,1,0,0,0,0,1,0,1],[1,0,1,1,1,1,1,1,0,1],[1,0,0,0,0,0,0,0,0,1],[1,1,1,1,1,1,1,1,1,1]]));
+
+  console.log(orangesRotting([[2,1,1],[1,1,0],[0,1,1]]));
+  console.log(orangesRotting([[2, 1, 1], [0, 1, 1], [1, 0, 1]]));
+
+</script>
+</body>
+</html>
