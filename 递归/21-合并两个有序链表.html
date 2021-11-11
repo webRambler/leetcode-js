@@ -42,20 +42,20 @@
    * @return {ListNode}
    */
   var mergeTwoLists = function(l1, l2) {
-    let newLink = new ListNode
-    const res = newLink
+    const newLink = new ListNode
+    let res = newLink
     while (l1 !== null && l2 !== null) {
       if (l1.val < l2.val) {
-        newLink.next = l1
+        res.next = l1
         l1 = l1.next
       } else {
-        newLink.next = l2
+        res.next = l2
         l2 = l2.next
       }
-      newLink = newLink.next
+      res = res.next
     }
-    newLink.next = l1 === null ? l2 : l1
-    return res.next
+    res.next = l1 === null ? l2 : l1
+    return newLink.next
   };
 
 
