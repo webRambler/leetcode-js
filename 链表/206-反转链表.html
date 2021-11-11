@@ -48,6 +48,50 @@
     return reverse(null, head)
   };
 
+  // 法三：栈
+  /**
+   Definition for singly-linked list.
+   */
+  function ListNode(val, next) {
+     this.val = (val===undefined ? 0 : val)
+     this.next = (next===undefined ? null : next)
+  }
+  /**
+   * @param {ListNode} head
+   * @return {ListNode}
+   */
+  var reverseList = function(head) {
+    const stack = []
+    let p = head
+    while (p) {
+      stack.push(p)
+      p = p.next
+    }
+    const res = new ListNode()
+    p = res
+    stack[0] && (stack[0].next = null)
+    while (stack.length) {
+      p.next = stack.pop()
+      p = p.next
+    }
+    return res.next
+  };
+
+  const links = {
+    val: 1,
+    next: {
+      val: 3,
+      next: {
+        val: 4,
+        next: {
+          val: 5
+        }
+      }
+    }
+  }
+
+reverseList(links)
+
 </script>
 </body>
 </html>
