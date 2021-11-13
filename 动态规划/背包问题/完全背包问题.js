@@ -6,6 +6,7 @@
 // dp[i][j]代表当前容量为 j 时,装下前 i 个物品中某些物品的最大价值(一个物品可能取多次)
 // 状态转移方程:
 //           dp[i][j] = Math.max(dp[i-1][j], dp[i-1][j- k * A[i]] + k * V[i])
+//      或者  dp[i][j] = Math.max(dp[i - 1][j], dp[i][j-A[i]] + V[i])
 
 /**
  * 完全背包可装的物品的最大价值
@@ -21,9 +22,11 @@ function totalBagMaxV(A, V, bagV) {
   }
   for (let i = 1; i <= n; i++) {
     for (let j = 1; j <= bagV; j++) {
-      dp[i][j] = Math.max(dp[i - 1][j], j - A[i - 1] >= 0 ? dp[i - 1][j - A[i - 1]] + V[i - 1] : 0)
+      dp[i][j] = Math.max(dp[i - 1][j], j - A[i - 1] >= 0 ? dp[i][j - A[i - 1]] + V[i - 1] : 0)
     }
   }
   console.log(dp, 99)
   return dp[n][bagV]
 }
+
+console.log(totalBagMaxV([2, 3, 5, 7], [1, 5, 2, 4], 10));
