@@ -29,3 +29,6 @@ function oneBagMaxV(A, V, bagV) {
 }
 
 console.log(oneBagMaxV([2, 3, 5, 7], [1, 5, 2, 4], 10));
+
+
+// 注意:dp[i][j]的值只和上一行的值有关,故可优化空间复杂度为O(n)
