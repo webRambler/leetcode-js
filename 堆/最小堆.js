@@ -82,17 +82,16 @@ class MinHeap {
    * @param i
    */
   moveDown(i) {
+    if (i === this.heap.length - 1) return
     const leftNodeIndex = this.getLeftChildIndex(i)
     const rightNodeIndex = this.getRightChildIndex(i)
     if (this.heap[leftNodeIndex] < this.heap[i]) {
       this.swap(leftNodeIndex, i)
       this.moveDown(leftNodeIndex)
-      return
     }
     if (this.heap[rightNodeIndex] < this.heap[i]) {
       this.swap(rightNodeIndex, i)
       this.moveDown(rightNodeIndex)
-      return
     }
   }
   /**
