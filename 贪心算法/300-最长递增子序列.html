@@ -122,7 +122,7 @@
     if (len < 2) return len
     const d = [0, nums[0]]
     let maxLength = 1
-    for (let i = 0; i < len; i++) {
+    for (let i = 1; i < len; i++) {
       if (nums[i] > d[maxLength]) {
         d.push(nums[i])
         maxLength++
