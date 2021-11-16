@@ -1,2 +1,2 @@
 # leetcode-js
-leetcode题目的JavaScript解法
+Just provide the solution of algorithmic problem using javascript
