@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>977. 有序数组的平方</title>
+</head>
+<body>
+
+<script>
+  // 给你一个按 非递减顺序 排序的整数数组 nums，返回 每个数字的平方 组成的新数组，要求也按 非递减顺序 排序。
+  //
+  // 示例 1：
+  // 输入：nums = [-4,-1,0,3,10]
+  // 输出：[0,1,9,16,100]
+  // 解释：平方后，数组变为 [16,1,0,9,100]
+  // 排序后，数组变为 [0,1,9,16,100]
+  //
+  // 示例 2：
+  // 输入：nums = [-7,-3,2,3,11]
+  // 输出：[4,9,9,49,121]
+  //
+  //
+  // 提示：
+  // 1 <= nums.length <= 104
+  // -104 <= nums[i] <= 104
+  // nums 已按 非递减顺序 排序
+  //
+  //
+  // 进阶：
+  //
+  // 请你设计时间复杂度为 O(n) 的算法解决本问题
+
+  // 解法一：归并排序
+  /**
+   * @param {number[]} nums
+   * @return {number[]}
+   */
+  var sortedSquares = function(nums) {
+    for (let i = 0; i < nums.length; i++) {
+      nums[i] *= nums[i]
+    }
+    // 归并排序
+    const mergeSort = list => {
+      if (list.length === 1) return list
+      const mid = list.length >> 1
+      const left = list.slice(0, mid)
+      const right = list.slice(mid)
+      const arr1 = mergeSort(left)
+      const arr2 = mergeSort(right)
+      let res = []
+      while (arr1.length && arr2.length) {
+        if (arr1[0] < arr2[0]) {
+          res.push(arr1.shift())
+        } else res.push(arr2.shift())
+      }
+      if (arr1.length) res = res.concat(arr1)
+      if (arr2.length) res = res.concat(arr2)
+      return res
+    }
+    return mergeSort(nums)
+  };
+
+  // 解法二：快速排序
+  /**
+   * @param {number[]} nums
+   * @return {number[]}
+   */
+  var sortedSquares = function(nums) {
+    for (let i = 0; i < nums.length; i++) {
+      nums[i] *= nums[i]
+    }
+    // 快速排序
+    function quickSort(list) {
+      const rec = arr => {
+        if (!arr.length) return []
+        const left = []
+        const right = []
+        const mid = arr[0]
+        for (let i = 1; i < arr.length; i++) {
+          if (arr[i] < mid) {
+            left.push(arr[i])
+          } else right.push(arr[i])
+        }
+        return [...rec(left), mid, ...rec(right)]
+      }
+      return rec(list)
+    }
+    return quickSort(nums)
+  }
+
+  // 解法三：双指针（一头一尾遍历数组）
+  /**
+   * @param {number[]} nums
+   * @return {number[]}
+   */
+  var sortedSquares = function(nums) {
+    const len = nums.length
+    if (nums[0] >= 0) return nums.map(v => v ** 2)
+    let i = 0, j = len - 1, pos = len - 1
+    const res = Array(len)
+    while (i <= j) {
+      // 因为是有序数组，如果有负有正，平方之后最大的分别是头和尾，所以把头尾进行比较，最大的放在数组最后一位
+      if (nums[i] ** 2 > nums[j] ** 2) {
+        res[pos--] = nums[i++] ** 2
+      } else {
+        res[pos--] = nums[j--] ** 2
+      }
+    }
+    console.log(res)
+    return res
+  }
+
+  // 错误解法（寻找最小的行不通，因为数组有可能不对称，最后比较左右有剩余，无法解决）
+  // 解法四：双指针，从寻找最小的元素开始
+  // 先找出平方后的最小的元素，拿到其索引，然后以此为界，切割数组成左右两个子数组
+  // 拿左边子数组的尾和右边子数组的头比较，谁的平方更小则把其的平方push进用来存放最后结果的新数组中（上一步找到的那个最小的数字的平方已经在数组的0位上了）
+  var sortedSquares = function(nums) {
+    const nums2 = nums.map(v => v ** 2)
+    if (nums[0] >= 0) return nums2
+    if (nums[nums.length - 1] <= 0) {
+      let left = 0, right = nums.length - 1
+      while (left < right) {
+        const TEMP = nums2[left]
+        nums2[left] = nums2[right]
+        nums2[right] = TEMP
+        left++
+        right--
+      }
+      return nums2
+    }
+    let minIndex = 0
+    debugger
+    for (let i = 1; i < nums2.length; i++) {
+      if (nums2[i] > nums2[minIndex]) continue
+      minIndex = i
+    }
+    const left = nums2.slice(0 , minIndex)
+    const right = nums2.slice(minIndex + 1)
+    let res = [nums2[minIndex]]
+    let i = left.length - 1, j = 0
+    while (i >= 0 && j < right.length) {
+      if (left[i] < right[j]) {
+        res.push(left[i])
+        i--
+      } else {
+        res.push(right[j])
+        j++
+      }
+    }
+    if (i >= 0) {
+      res = res.concat(left.slice(0, i))
+    }
+    if (j < right.length) {
+      res = res.concat(right.slice(j))
+    }
+    console.log(res, 789999)
+    return res
+  }
+
+  console.log(sortedSquares([-5,-3,-2,-1]));
+  // console.log(sortedSquares([-4, -1, 2, 3, 10]));
+</script>
+</body>
+</html>
