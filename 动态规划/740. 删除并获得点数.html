@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>740. 删除并获得点数</title>
+</head>
+<body>
+
+<script>
+  // 给你一个整数数组nums，你可以对它进行一些操作。
+  // 每次操作中，选择任意一个nums[i]，删除它并获得nums[i]的点数。之后，你必须删除 所有 等于nums[i] - 1 和 nums[i] + 1的元素。
+  // 开始你拥有 0 个点数。返回你能通过这些操作获得的最大点数。
+  //
+  // 示例 1：
+  // 输入：nums = [3,4,2]
+  // 输出：6
+  // 解释：
+  //   删除 4 获得 4 个点数，因此 3 也被删除。
+  //   之后，删除 2 获得 2 个点数。总共获得 6 个点数。
+  //
+  // 示例2：
+  // 输入：nums = [2,2,3,3,3,4]
+  // 输出：9
+  // 解释：
+  //   删除 3 获得 3 个点数，接着要删除两个 2 和 4 。
+  //   之后，再次删除 3 获得 3 个点数，再次删除 3 获得 3 个点数。
+  //   总共获得 9 个点数。
+  //
+  // 提示：
+  // 1 <= nums.length <= 2 * 10**4
+  // 1 <= nums[i] <= 10**4
+
+  // 解法一：动态规划（同198打家劫舍）
+  /**
+   * @param {number[]} nums
+   * @return {number}
+   */
+  var deleteAndEarn = function(nums) {
+    const maxNum = Math.max(...nums)
+    const arr = new Array(maxNum + 1).fill(0)
+    for (const num of nums) {
+      arr[num] += num
+    }
+    const dp = new Array(maxNum + 1)
+    dp[0] = 0
+    dp[1] = arr[1]
+    for (let i = 2; i < arr.length; i++) {
+      dp[i] = Math.max(dp[i - 2] + arr[i], dp[i - 1])
+    }
+    return dp[maxNum]
+  };
+
+  // 解法二：动态规划（同198打家劫舍）（降低空间复杂度）
+  /**
+   * @param {number[]} nums
+   * @return {number}
+   */
+  var deleteAndEarn = function(nums) {
+    const maxNum = Math.max(...nums)
+    const arr = new Array(maxNum + 1).fill(0)
+    for (const num of nums) {
+      arr[num] += num
+    }
+    let dp0 = 0
+    let dp1 = arr[1]
+    for (let i = 2; i < arr.length; i++) {
+      const dp2 = Math.max(dp0 + arr[i], dp1)
+      dp0 = dp1
+      dp1 = dp2
+    }
+    return dp1
+  };
+
+  deleteAndEarn([3,4,2])
+
+</script>
+</body>
+</html>
