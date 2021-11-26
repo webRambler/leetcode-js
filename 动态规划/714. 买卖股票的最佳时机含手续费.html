@@ -40,7 +40,10 @@
    */
   var maxProfit = function(prices, fee) {
     const n = prices.length
-    const dp = new Array(n).fill([])
+    const dp = []
+    for (let i = 0; i < n; i++) {
+      dp[i] = []
+    }
     dp[0][0] = 0
     dp[0][1] = -prices[0]
     for (let i = 1; i < n; i++) {
@@ -57,7 +60,7 @@
    * @param {number} fee
    * @return {number}
    */
-  var maxProfit = function(prices, fee) {
+  var maxProfit2 = function(prices, fee) {
     const n = prices.length
     let dp0 = 0
     let dp1 = -prices[0]
