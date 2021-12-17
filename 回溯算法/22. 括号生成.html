@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>22. 括号生成</title>
+</head>
+<body>
+
+<script>
+  // 数字 n代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
+  // 有效括号组合需满足：左括号必须以正确的顺序闭合。
+  //
+  // 示例 1：
+  // 输入：n = 3
+  // 输出：["((()))","(()())","(())()","()(())","()()()"]
+  //
+  // 示例 2：
+  // 输入：n = 1
+  // 输出：["()"]
+  //
+  // 提示：
+  // 1 <= n <= 8
+
+  // 法一：回溯算法（超时）
+  /**
+   * @param {number} n
+   * @return {string[]}
+   */
+  var generateParenthesis = function(n) {
+    const arr = new Array(n).fill('(').concat(Array(n).fill(')'))
+    function isValid(str) {
+      const stack = [')']
+      for (let i = 1; i < 2 * n; i++) {
+        const char = str.charAt(i)
+        if (char === '(') {
+          stack.push(')')
+        } else {
+          if (!stack.length) return false
+          stack.pop()
+        }
+      }
+      return stack.length === 0
+    }
+    let res = []
+    const backTree = (path, i, leftNum, rightNum) => {
+      if (path.length === 2 * n - 1) {
+        res.push(path + ')')
+        return
+      }
+      for (let j = 1; j < 2 * n - 1; j++) {
+        if (j !== i) {
+          if (leftNum > n || rightNum > n - 1) return;
+          const char = arr[j]
+          if (char === '(') {
+            backTree(path + arr[j], j, leftNum + 1, rightNum)
+          } else backTree(path + arr[j], j, leftNum, rightNum + 1)
+        }
+      }
+    }
+    backTree('(', 0, 1, 0)
+    // res = [...new Set(res)]
+    // for (let i = 0; i < res.length; i++) {
+    //   if (!isValid(res[i])) {
+    //     res.splice(i, 1)
+    //     i--
+    //   }
+    // }
+    console.log(res, 'res')
+    return res
+  };
+
+  // 法二：动态规划
+  /**
+   * @param {number} n
+   * @return {string[]}
+   */
+  var generateParenthesis2 = function(n) {
+    let arr = ['()']
+
+  }
+
+  generateParenthesis(2)
+  generateParenthesis(3)
+  // generateParenthesis(4)
+  generateParenthesis(5)
+
+</script>
+</body>
+</html>
