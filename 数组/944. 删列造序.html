@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>944. 删列造序</title>
+</head>
+<body>
+
+<script>
+//   给你由 n 个小写字母字符串组成的数组 strs，其中每个字符串长度相等。
+//
+//   这些字符串可以每个一行，排成一个网格。例如，strs = ["abc", "bce", "cae"] 可以排列为：
+//
+//   abc
+//   bce
+//   cae
+//   你需要找出并删除 不是按字典序升序排列的 列。在上面的例子（下标从 0 开始）中，列 0（'a', 'b', 'c'）和列 2（'c', 'e', 'e'）都是按升序排列的，而列 1（'b', 'c', 'a'）不是，所以要删除列 1 。
+//
+//   返回你需要删除的列数。
+//
+//
+// 示例 1：
+//
+// 输入：strs = ["cba","daf","ghi"]
+//   输出：1
+//   解释：网格示意如下：
+//   cba
+//   daf
+//   ghi
+//   列 0 和列 2 按升序排列，但列 1 不是，所以只需要删除列 1 。
+// 示例 2：
+//
+// 输入：strs = ["a","b"]
+//   输出：0
+//   解释：网格示意如下：
+//   a
+//   b
+//   只有列 0 这一列，且已经按升序排列，所以不用删除任何列。
+// 示例 3：
+//
+// 输入：strs = ["zyx","wvu","tsr"]
+//   输出：3
+//   解释：网格示意如下：
+//   zyx
+//   wvu
+//   tsr
+//   所有 3 列都是非升序排列的，所以都要删除。
+//
+//
+// 提示：
+//
+// n == strs.length
+//   1 <= n <= 100
+//   1 <= strs[i].length <= 1000
+//   strs[i] 由小写英文字母组成
+
+/**
+ * @param {string[]} strs
+ * @return {number}
+ */
+var minDeletionSize = function(strs) {
+  const h = strs.length
+  const v = strs[0].length
+  const byteMap = {
+    'a': 1,
+    'b': 2,
+    'c': 3,
+    'd': 4,
+    'e': 5,
+    'f': 6,
+    'g': 7,
+    'h': 8,
+    'i': 9,
+    'j': 10,
+    'k': 11,
+    'l': 12,
+    'm': 13,
+    'n': 14,
+    'o': 15,
+    'p': 16,
+    'q': 17,
+    'r': 18,
+    's': 19,
+    't': 20,
+    'u': 21,
+    'v': 22,
+    'w': 23,
+    'x': 24,
+    'y': 25,
+    'z': 26
+  }
+  const arr = []
+  for (let i = 0; i < v; i++) {
+    arr[i] = []
+    for (let j = 0; j < h; j++) {
+      arr[i][j] = byteMap[strs[j][i]]
+    }
+  }
+  
+  function isSort (list) {
+    for (let i = 0; i < list.length - 1; i++) {
+      if (list[i + 1] < list[i]) return false
+    }
+    return true
+  }
+  let num = 0
+  for (let i = 0; i < arr.length; i++) {
+    if (!isSort(arr[i])) num++
+  }
+  return num
+};
+
+// minDeletionSize(['abc', 'ace', 'gah'])
+minDeletionSize(["rrjk","furt","guzm"])
+
+
+</script>
+</body>
+</html>
