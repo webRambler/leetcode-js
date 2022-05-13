@@ -7,7 +7,7 @@
 <body>
 
 <script>
-  // 实现 pow(x, n) ，即计算 x 的 n 次幂函数（即，xn）。
+  // 实现 pow(x, n) ，即计算 x 的 n 次幂函数（即，x**n）。
 
   /**
    * @param {number} x
@@ -21,7 +21,6 @@
     let lastCount = 1
     const arr = []
     let left = 1, right = m - 1
-    debugger
     while (left <= right) {
       const mid = (left + right) / 2 | 0
       mid > 1 && arr.unshift(mid)
@@ -39,7 +38,40 @@
     return n > 0 ? res : 1 / res
   }
 
-  myPow(2, -2147483648)
+  // 法二： 二分法 + 栈
+  /**
+   * @param {number} x
+   * @param {number} n
+   * @return {number}
+   */
+  var myPow = function(x, n) {
+    if (n === 0) return 1
+    const m = n > 0 ? n : -n
+    const stack = []
+    if (m > 1) stack.push(m)
+    let left = 0
+    let right = m
+    while (left < right && right > 3) {
+      const mid = (left + right) >> 1
+      stack.push(mid)
+      right = mid - 1
+    }
+    let res = x
+    let count = 1
+    while (stack.length) {
+      const target = stack.pop()
+      count *= 2
+      res *= res
+      if (count < target) {
+        res *= x
+      }
+      count = target
+    }
+    return n > 0 ? res : 1 / res
+  }
+
+  // myPow(2, -2147483648)
+  myPow(2, -4)
 </script>
 </body>
 </html>
