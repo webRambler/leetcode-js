@@ -104,6 +104,20 @@
     return dp[m][n] === s.length
   }
 
+  // 解法四：单指针
+  /**
+   * @param {string} s
+   * @param {string} t
+   * @return {boolean}
+   */
+  var isSubsequence = function(s, t) {
+    let pos = 0
+    for (let i = 0; i < t.length; i++) {
+      if (s.charAt(pos) === t.charAt(i)) pos++
+    }
+    return pos === s.length
+  }
+
   isSubsequence('aaa', 'bbaa')
 
 </script>

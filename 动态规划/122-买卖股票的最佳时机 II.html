@@ -55,7 +55,7 @@
     dp[0][1] = -prices[0]
     for (let i = 1; i < len; i++) {
       dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i])
-      dp[i][1] = Math.max(dp[i-1][1], dp[i - 1][0] - prices[i])
+      dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][0] - prices[i])
     }
     // 最后一天不可以持股，必须卖出
     return dp[len - 1][0]

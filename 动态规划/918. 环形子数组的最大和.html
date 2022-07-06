@@ -41,7 +41,7 @@
 //   1 <= A.length <= 30000
 
 // 解法一：动态规划（同53最大子序和）(要算两次，首先是最后一位数不动放在最后一位，计算一次；然后把最后一位添加到数组的最前面再计算一次)
-/**
+/**  解法超时
  * @param {number[]} nums
  * @return {number}
  */
@@ -66,6 +66,45 @@ var maxSubarraySumCircular = function(nums) {
   console.log(dp2, 'dp2')
   return Math.max(...dp, ...dp2)
 };
+
+// 解法二：Kanade 算法(用来求连续子数组的最大和)
+function sum(nums) {
+  let res = cur = 0
+  nums.forEach(n => {
+    cur = Math.max(cur, 0) + n
+    res = Math.max(res, cur)
+  })
+  return res
+}
+// 拥有最大和的子数组有以下两种情况：
+//    1.子数组没有越界，不需要发生末端和开头的环形，就像上面的示例1、示例4
+//    2.子数组有越界，子数组包含末端和开头，但中间部分元素不包含，例如示例2.
+//
+// 对于第一种情况，其实就是求普通数组的连续子数组的最大和，使用两个变量，curr 和 sum，分别表示加上当前元素后的和，以及，最终的最大和。
+// 遍历元素，将 curr 与 0 之间的最大值加上 当前元素，若大于sum，更新sum。
+//
+// 对于第二种情况，可以求出这个普通数组的连续子数组的最小和，然后剩下的两段元素的和就是最大和了。
+// 同时求最大和与最小和，若最大和小于0，说明所有元素都小于0，返回这个最大和即可，否则，返回最大和与（total - 最小和）之间的最大值。
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maxSubarraySumCircular = function(nums) {
+  let curMaxSum = Number.MIN_SAFE_INTEGER
+  let finalMaxSum = Number.MIN_SAFE_INTEGER
+  let curMinSum = Number.MAX_SAFE_INTEGER
+  let finalMinSum = Number.MAX_SAFE_INTEGER
+  let total = 0
+  nums.forEach(n => {
+    total += n;
+    curMaxSum = Math.max(curMaxSum, 0) + n;
+    finalMaxSum = Math.max(curMaxSum, finalMaxSum)
+    curMinSum = Math.min(curMinSum, 0) + n
+    finalMinSum = Math.min(curMinSum, finalMinSum)
+  })
+
+  return finalMaxSum > 0 ? Math.max(total - finalMinSum, finalMaxSum) : finalMaxSum
+}
 
 maxSubarraySumCircular([-1,3,-3,9,-6,8,-5,-5,-6,10])
 // maxSubarraySumCircular([8,-3,-7,3,2,0])

@@ -53,7 +53,9 @@
   var canJump = function(nums) {
     const n = nums.length
     let sum = 0
+    // sum表示目前可以跳到的最远位置
     for (let i = 0; i < n; i++) {
+      // 如果i大于sum，则表示前面的位置怎么跳也跳不过i这个位置，则此时表示不可能跳到最后的位置
       if (i > sum) return false
       sum = Math.max(sum, nums[i] + i)
     }
